@@ -47,8 +47,67 @@ name <- "Bob"
 message <- paste(greeting, name)
 message
 
+# Logical:
+# TRUE T
+# FALSE F
+4 < 5
+10 > 100
+4 == 5
+# == (equal to)
+# != (not equal to)
+# < (less than)
+# > (greater than)
+# <= (less than equal to)
+# >= (greater than equal to)
+# ! (not)
+# | (or)
+# & (and)
+# isTRUE(x)
+result <- 4 < 5
+result
+typeof(result)
+
+result2 <- !TRUE
+result2
+
+result2 <- !(5>1)
+result2
+
+result | result2
+result & result2
+
+isTRUE(result)
+
+# While loops - continue until argument is FALSE
+
+while(FALSE){
+        print("Hello")
+}
+
+while(TRUE){
+        print("Hello")
+}
+
+# ^^ Press (Escape) to exit infinite loop
+
+counter <- 1
+while(counter < 12) {
+        print(counter)
+        counter <- counter + 1
+}
 
 
+# For loops (arguments are iterations of a loop)
+
+for(i in 1:5){
+      print("Hello R")  
+}
+
+1:5
+
+for(i in 5:10){
+        print("Hello R")  
+}
 
 
 
