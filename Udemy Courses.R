@@ -224,6 +224,285 @@ for(i in 1:N){
         d[i] <- a[i] * b[i]
 }
 
+library(ggplot2)
+qplot(data=diamonds, carat, price, colour=clarity, facets=.~clarity)
+
+#Homework: Financial Statement Analysis
+#Data
+revenue <- c(14574.49, 7606.46, 8611.41, 9175.41, 8058.65, 8105.44, 11496.28, 9766.09, 10305.32, 14379.96, 10713.97, 15433.50)
+expenses <- c(12051.82, 5695.07, 12319.20, 12089.72, 8658.57, 840.20, 3285.73, 5821.12, 6976.93, 16618.61, 10054.37, 3803.96)
+
+#Solution
+
+profit <- revenue - expenses
+tax <- round(0.30 * profit, 2)
+profitaftertax <- profit - tax
+profitmargin <- round(profitaftertax / revenue, 2)*100
+goodmonths <- profitaftertax > mean(profitaftertax)
+badmonths <- profitaftertax < mean(profitaftertax)
+bestmonth <- profitaftertax == max(profitaftertax)
+worstmonth <- profitaftertax == min(profitaftertax)
+revenue.1000 <- round(revenue/1000, 0)
+expenses.1000 <- round(expenses/1000, 0)
+profit.1000 <- round(profit/1000, 0)
+profitaftertax.1000 <- round(profitaftertax/1000, 0)
+
+#Print
+revenue.1000
+expenses.1000
+profit.1000
+profitaftertax.1000
+profitmargin
+goodmonths
+badmonths
+bestmonth
+worstmonth
+
+#Matrices
+
+m <- rbind(
+  revenue.1000,
+  expenses.1000,
+  profit.1000,
+  profitaftertax.1000,
+  profitmargin,
+  goodmonths,
+  badmonths,
+  bestmonth,
+  worstmonth      
+)
+
+m
+colnames(m) <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+class(m)
+
+Salary
+
+kb <- Salary[1, 4:6]
+kb
+
+?matrix
+
+my.data <- 1:20
+my.data
+A <- matrix(my.data, 4, 5)
+A
+A[2,3]
+B <- matrix(my.data, 4, 5, byrow=T)
+B
+B[2,5]
+
+#rbind
+r1 <- c("I", "am", "happy")
+r2 <- c("What", "a", "day")
+r3 <- c(1, 2, 3)
+C <- rbind(r1, r2, r3)
+C
+
+#cbind
+c1 <- 1:5
+c2 <- -1:-5
+D <- cbind(c1, c2)
+D
+
+#Named Vectors
+Charlie <- 1:5
+Charlie
+
+#give names
+names(Charlie) <- c("a", "b", "c", "d", "e")
+Charlie
+Charlie["d"]
+names(Charlie)
+
+#clear names
+names(Charlie) <- NULL
+Charlie
+
+#Naming Matrix Dimensions 1
+
+temp.vec <- rep(c("a", "b", "zZ"), each=3)
+rep(c("a", "b", "zZ"), times=3)
+rep(c("a", "b", "zZ"), each=3)
+temp.vec
+
+Bravo <- matrix(temp.vec, 3, 3)
+Bravo
+
+rownames(Bravo) <- c("How", "are", "you")
+Bravo
+colnames(Bravo) <- c("X", "Y", "Z")
+
+Bravo["are", "Y"] <- 0 #replace specific values in a matrix
+Bravo
+
+rownames(Bravo) <- NULL #remove row names
+Bravo
+
+#Matrix operations
+
+Games
+rownames(Games)
+colnames(Games)
+Games["LeBronJames", "2012"]
+FieldGoals
+FieldGoals / Games
+round(FieldGoals / Games, 1)
+
+round(MinutesPlayed / Games)
+
+#MATPLOT() - plots columns of matrices; if you want to plot rows you have to transpose data
+
+?matplot
+matplot(t(FieldGoals/Games), type="b", pch=15:18, col=c(1:4, 6))
+legend("bottomleft", inset=0.01, legend=Players, col=c(1:4, 6), pch=15:18, horiz=F )
+#transpose
+t(FieldGoals/Games)
+
+matplot(t(FieldGoals/FieldGoalAttempts), type="b", pch=15:18, col=c(1:4, 6))
+legend("bottomleft", inset=0.01, legend=Players, col=c(1:4, 6), pch=15:18, horiz=F )
+
+matplot(t(Salary/Points), type="b", pch=15:18, col=c(1:4, 6))
+legend("bottomleft", inset=0.01, legend=Players, col=c(1:4, 6), pch=15:18, horiz=F )
+
+
+#Subsetting
+
+x <- c("a", "b", "c", "d", "e")
+x
+x[c(1,5)]
+x[1]
+
+Games
+Games[1:3, 6:10]
+Games[c(1,10), ]
+Games[, c("2008", "2009")]
+Games[1, ]
+class(Games[1, ])
+Games[1,5] #gives vector because 1d argument
+Games[1,,drop=F] #R is no longer dropping a dimension; returns matrix
+Games[1,5, drop=F] #R is no longer dropping a dimension; returns matrix
+
+#Visualizing subsets
+Data <- MinutesPlayed[1:3,]
+matplot(t(Data), type="b", pch=15:18, col=c(1:4, 6))
+legend("bottomleft", inset=0.01, legend=Players[1:3], col=c(1:4, 6), pch=15:18, horiz=F )
+
+Data <- MinutesPlayed[1,, drop=F]
+matplot(t(Data), type="b", pch=15:18, col=c(1:4, 6))
+legend("bottomleft", inset=0.01, legend=Players[1], col=c(1:4, 6), pch=15:18, horiz=F )
+
+
+
+#First function
+
+myplot <- function(data, rows=1:10){
+  Data <- data[rows,, drop=F]
+  matplot(t(Data), type="b", pch=15:18, col=c(1:4, 6))
+  legend("bottomleft", inset=0.01, legend=Players[rows], col=c(1:4, 6), pch=15:18, horiz=F )
+}
+
+myplot(Salary)
+myplot(MinutesPlayed/Games)
+myplot(MinutesPlayed/Games, 3)
+
+#Salary
+myplot(Salary)
+myplot(Salary / Games)
+myplot(Salary / FieldGoals)
+
+#In-Game Metrics
+myplot(MinutesPlayed)
+myplot(Points)
+
+#In-Game Metrics Normalized
+myplot(FieldGoals/Games)
+myplot(FieldGoals/FieldGoalAttempts)
+myplot(FieldGoalAttempts/Games)
+myplot(Points/Games)
+
+#Interesting Observation
+myplot(MinutesPlayed/Games)
+myplot(Games)
+
+#Time is valuable
+myplot(FieldGoals/MinutesPlayed)
+
+#Player style
+myplot(Points/FieldGoals)
+
+#Section 4 Homework 
+
+#Seasons
+Seasons <- c("2005","2006","2007","2008","2009","2010","2011","2012","2013","2014")
+
+#Players
+Players <- c("KobeBryant","JoeJohnson","LeBronJames","CarmeloAnthony","DwightHoward","ChrisBosh","ChrisPaul","KevinDurant","DerrickRose","DwayneWade")
+
+#Free Throws
+KobeBryant_FT <- c(696,667,623,483,439,483,381,525,18,196)
+JoeJohnson_FT <- c(261,235,316,299,220,195,158,132,159,141)
+LeBronJames_FT <- c(601,489,549,594,593,503,387,403,439,375)
+CarmeloAnthony_FT <- c(573,459,464,371,508,507,295,425,459,189)
+DwightHoward_FT <- c(356,390,529,504,483,546,281,355,349,143)
+ChrisBosh_FT <- c(474,463,472,504,470,384,229,241,223,179)
+ChrisPaul_FT <- c(394,292,332,455,161,337,260,286,295,289)
+KevinDurant_FT <- c(209,209,391,452,756,594,431,679,703,146)
+DerrickRose_FT <- c(146,146,146,197,259,476,194,0,27,152)
+DwayneWade_FT <- c(629,432,354,590,534,494,235,308,189,284)
+#Matrix
+FreeThrows <- rbind(KobeBryant_FT,JoeJohnson_FT, LeBronJames_FT, CarmeloAnthony_FT,DwightHoward_FT, 
+  ChrisBosh_FT,ChrisPaul_FT, KevinDurant_FT, DerrickRose_FT, DwayneWade_FT)
+FreeThrows
+rm(KobeBryant_FT,JoeJohnson_FT, LeBronJames_FT, CarmeloAnthony_FT,DwightHoward_FT, 
+  ChrisBosh_FT,ChrisPaul_FT, KevinDurant_FT, DerrickRose_FT, DwayneWade_FT)
+colnames(FreeThrows) <- Seasons
+rownames(FreeThrows) <- Players
+
+
+#Free Throw Attempts
+KobeBryant_FTA <- c(819,768,742,564,541,583,451,626,21,241)
+JoeJohnson_FTA <- c(330,314,379,362,269,243,186,161,195,176)
+LeBronJames_FTA <- c(814,701,771,762,773,663,502,535,585,528)
+CarmeloAnthony_FTA <- c(709,568,590,468,612,605,367,512,541,237)
+DwightHoward_FTA <- c(598,666,897,849,816,916,572,721,638,271)
+ChrisBosh_FTA <- c(581,590,559,617,590,471,279,302,272,232)
+ChrisPaul_FTA <- c(465,357,390,524,190,384,302,323,345,321)
+KevinDurant_FTA <- c(256,256,448,524,840,675,501,750,805,171)
+DerrickRose_FTA <- c(205,205,205,250,338,555,239,0,32,187)
+DwayneWade_FTA <- c(803,535,467,771,702,652,297,425,258,370)
+#Matrix
+FreeThrowAttempts <- rbind(KobeBryant_FTA,JoeJohnson_FTA, LeBronJames_FTA, CarmeloAnthony_FTA,DwightHoward_FTA, 
+  ChrisBosh_FTA,ChrisPaul_FTA, KevinDurant_FTA, DerrickRose_FTA, DwayneWade_FTA)
+FreeThrowAttempts
+rm(KobeBryant_FTA,JoeJohnson_FTA, LeBronJames_FTA, CarmeloAnthony_FTA,DwightHoward_FTA, 
+  ChrisBosh_FTA,ChrisPaul_FTA, KevinDurant_FTA, DerrickRose_FTA, DwayneWade_FTA)
+colnames(FreeThrowAttempts) <- Seasons
+rownames(FreeThrowAttempts) <- Players
+FreeThrowAttempts
+
+#Free Throw Attampts per Game
+myplot(FreeThrowAttempts / Games)
+
+#Accuracy of Free Throws
+myplot(FreeThrows / FreeThrowAttempts)
+
+#Player playing style (2 vs 3 points preference) excluding Free Throws
+style <- ((Points - FreeThrows) / FieldGoals)
+myplot((Points - FreeThrows) / FieldGoals)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
