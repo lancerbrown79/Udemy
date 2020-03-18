@@ -109,8 +109,31 @@ for(i in 5:10){
         print("Hello R")  
 }
 
+# If Else statement
 
+# ---- -2 ---- -1 ----- 0 ----- 1 ----- 2 ----
 
+rm(answer)
+x <- rnorm(1)
 
+if(x > 1){
+        answer <- "Greater than 1"
+} else if(x >= -1){
+        answer <- "Between -1 and 1"
+} else {
+        answer <- "Less than -1"
+}
+
+# Law of large numbers = as n increases towards infinity, the mean of x will approach expected value of x
+
+n <- 1000
+counter <- 0
+for(i in rnorm(n)) {
+       if(i > -1 & i < 1){
+               counter <- counter + 1
+       }
+}
+answer <- counter / n
+answer
 
 
