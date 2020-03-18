@@ -43,3 +43,5 @@ m <- rbind(
 )
 
 m
+colnames(m) <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+class(m)
