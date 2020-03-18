@@ -126,7 +126,7 @@ if(x > 1){
 
 # Law of large numbers = as n increases towards infinity, the mean of x will approach expected value of x
 
-n <- 1000
+n <- 1000000
 counter <- 0
 for(i in rnorm(n)) {
        if(i > -1 & i < 1){
@@ -136,4 +136,37 @@ for(i in rnorm(n)) {
 answer <- counter / n
 answer
 
+# Vector
 
+MyFirstVector <- c(3, 45, 56, 732)
+MyFirstVector 
+is.numeric(MyFirstVector)
+is.integer(MyFirstVector)
+is.double(MyFirstVector)
+
+V2 <- c(3L, 12L, 243L, 0L)
+is.numeric(V2) #Numeric encompasses integers and doubles
+is.integer(V2) 
+is.double(V2)
+
+V3 <- c("a", "B23", "Hello", 7)
+V3
+is.character(V3)
+is.numeric(V3)
+
+seq() #sequence - like ":"
+rep() #replicate
+
+seq(1,15) #gives flexibility
+1:15
+
+seq(1,15, 2)
+z <- seq(1,15,4)
+z
+
+rep(3, 50) #repeat 3, 50 times.
+d <- rep(3, 50)
+rep("a", 5)
+x <- c(80, 20)
+y <- rep(x, 10)
+y
