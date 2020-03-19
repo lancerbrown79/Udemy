@@ -645,6 +645,146 @@ qplot(data=data2013, x=FertRate, y=LifeExp, color=Region, main="Life Expectancy 
 #Comments: Fertility rate in decreasing as life expectancy increases, maybe due to increased
 ##proportion of aging population?
 
+##-------------------------ggplot2
+
+#7 layers to a plot: Data -> Aesthetics -> Geometries -> Statistics -> Facets -> Coordinates -> Theme
+
+#-------------------------Factor - a categorical variable
+
+getwd()
+movies <- read.csv("P2-Movie-Ratings.csv")
+str(movies)
+colnames(movies) <- c("Film", "Genre", "CriticRating", "AudienceRating", "BudgetMillions", "Year")
+summary(movies)
+
+#Year should be a factor (categorical)
+factor(movies$Year)
+movies$Year <- factor(movies$Year) #Change Year to factor
+
+#-------------------------Aesthetics
+ggplot(data=movies, aes(x=CriticRating, y=AudienceRating))
+
+#Add geometry
+ggplot(data=movies, aes(x=CriticRating, y=AudienceRating)) +
+    geom_point()
+
+#Add color
+ggplot(data=movies, aes(x=CriticRating, y=AudienceRating, 
+    color=Genre)) +
+  geom_point()
+
+#Add size
+ggplot(data=movies, aes(x=CriticRating, y=AudienceRating, 
+    color=Genre, size=BudgetMillions)) +
+  geom_point()
+
+#Plotting with layers
+p <- ggplot(data=movies, aes(x=CriticRating, y=AudienceRating, 
+  color=Genre, size=BudgetMillions))
+
+#point
+p + geom_point()
+
+#point
+p + geom_line()
+
+#multiple layers
+p + geom_point() + geom_line()
+p + geom_line() + geom_point()
+
+#----------------------Overriding aesthetics
+
+q <- ggplot(data=movies, aes(x=CriticRating, y=AudienceRating,
+  color=Genre, size=BudgetMillions))
+
+#add geom layer
+q + geom_point()
+
+#overriding aes
+#example 1
+q + geom_point(aes(size=CriticRating))
+
+#example 2
+q + geom_point(aes(color=BudgetMillions))
+
+#q remains same
+q + geom_point()
+
+#example 3
+q + geom_point(aes(x=BudgetMillions)) +
+  xlab("Budget Millions $$$")
+
+#example 4
+q + geom_line() + geom_point()
+
+#reduce line size
+q + geom_line(size=.5) + geom_point()
+
+#mapping vs setting
+r <- ggplot(data=movies, aes(x=CriticRating, y=AudienceRating))
+r + geom_point()
+
+#add color
+#1. Mapping (what we have done so far; use aesthetic to map to a variable
+r + geom_point(aes(color=Genre))
+
+#2. Setting (setting to a physical color)
+r + geom_point(color="darkgreen")
+
+#ERROR
+#r + geom_point(aes(color="DarkGreen"))
+
+#1. Mapping
+r + geom_point(aes(size=BudgetMillions))
+
+#2. Setting
+r + geom_point(size=3)
+
+#-----------------------Histograms and Density Charts
+str(movies)
+s <- ggplot(data=movies, aes(x=BudgetMillions))
+s + geom_histogram(bindwidth=10)
+
+#add color
+s + geom_histogram(bindwidth=10, aes(fill=Genre))
+
+#add border
+s + geom_histogram(bindwidth=10, aes(fill=Genre), color="Black")
+#>>>3
+
+#Density charts
+s + geom_density(aes(fill=Genre))
+s + geom_density(aes(fill=Genre), position="stack")
+
+#------------Starting layer tips
+
+t <- ggplot(data=movies, aes(x=AudienceRating))
+t + geom_histogram(binwidth=10,
+  fill="White", color="Blue")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
