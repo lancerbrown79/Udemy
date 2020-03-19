@@ -515,7 +515,7 @@ stats["Angola", 3] #This won't work, Angola is not a column name.
 #Data frames don't have names for rows; just like Excel
 stats$Internet.users #returns vector for Internet.users
 stats$Internet.users[2] #returns second value in vector
-levels(stats$Income.Group) #Puts factors into vectors
+levels(stats$Income.Group) #see what factors are in a character vector
 
 #Basic operations with a data frame
 
@@ -548,5 +548,38 @@ stats$xyz <- NULL
 head(stats)
 
 #Filtering data frames
+head(stats)
+filter <- stats$Internet.users < 2
+stats[filter,] #Use vector with TRUE FALSE values and displays values for TRUE
+stats[stats$Birth.rate > 40 & stats$Internet.users <2, ]
+stats[stats$Income.Group == "High income", ]
+
+stats[stats$Country.Name == "Malta",]
+
+#Introduction to qplot
+
+library(ggplot2)
+?qplot
+qplot(data=stats, x=Internet.users)
+qplot(data=stats, x=Income.Group, y=Birth.rate)
+qplot(data=stats, x=Income.Group, y=Birth.rate, size=I(3))
+qplot(data=stats, x=Income.Group, y=Birth.rate, size=I(3),
+  color=I("blue"))
+qplot(data=stats, x=Income.Group, y=Birth.rate, geom="boxplot")
+
+#Visualizing what we need
+qplot(data=stats, x=Internet.users, y=Birth.rate)
+qplot(data=stats, x=Internet.users, y=Birth.rate,
+  color=I("red"), size=I(2))
+qplot(data=stats, x=Internet.users, y=Birth.rate,
+  color=Income.Group, size=I(2))
+
+#Building data frames
+
+
+
+
+
+
 
 
