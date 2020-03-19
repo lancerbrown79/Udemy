@@ -491,25 +491,62 @@ myplot(FreeThrows / FreeThrowAttempts)
 style <- ((Points - FreeThrows) / FieldGoals)
 myplot((Points - FreeThrows) / FieldGoals)
 
+#Importing csv
+getwd()
+stats <- read.csv("/Users/lancer/Documents/R Programming/Udemy/P2-Demographic-Data.csv") #Choose from Working Directory
+stats <- read.csv("P2-Demographic-Data.csv")
+stats <- read.csv(file.choose()) #Choose file  manually
 
+#Exploring data
 
+str(stats)
+nrow(stats)
+ncol(stats)
+head(stats)
+tail(stats)
+summary(stats)
 
+#Use the $ sign
 
+head(stats)
+stats[3, 3] #get birthrate for Angola
+stats[3, "Birth.rate"]
+stats["Angola", 3] #This won't work, Angola is not a column name.
+#Data frames don't have names for rows; just like Excel
+stats$Internet.users #returns vector for Internet.users
+stats$Internet.users[2] #returns second value in vector
+levels(stats$Income.Group) #Puts factors into vectors
 
+#Basic operations with a data frame
 
+stats[1:10, ] #look at first 10 rows (and all columns)
+stats[3:9, ]
+stats[c(4,100),]
 
+#Remember how the [] work
+stats[1, ] #keeps it as a data frame (matrix would return vector (unless drop=F))
+is.data.frame(stats)
+stats[, 1] #doesn't return data frame (returns vector)
+stats[, 1, drop=F] #to return data frame
+is.data.frame(stats)
 
+#Multiply columns
+stats$Birth.rate * stats$Internet.users
+stats$Birth.rate + stats$Internet.users
 
+#Add columns
+stats$MyCalc <- stats$Birth.rate * stats$Internet.users
+head(stats)
 
+#test of knowledge
+stats$xyz <- 1:5 #recycles 1:5 to fill 195 rows
+head(stats)
 
+#Remove columns
+stats$MyCalc <- NULL
+stats$xyz <- NULL
+head(stats)
 
-
-
-
-
-
-
-
-
+#Filtering data frames
 
 
