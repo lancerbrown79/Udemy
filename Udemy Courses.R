@@ -574,7 +574,52 @@ qplot(data=stats, x=Internet.users, y=Birth.rate,
 qplot(data=stats, x=Internet.users, y=Birth.rate,
   color=Income.Group, size=I(2))
 
-#Building data frames
+#Creating data frames
+mydf <- data.frame(Countries_2012_Dataset, Codes_2012_Dataset, 
+  Regions_2012_Dataset)
+head(mydf)
+colnames(mydf) <- c("Country", "Code", "Region") #Change column names
+rm(mydf)
+mydf <- data.frame(Country=Countries_2012_Dataset, Code=Codes_2012_Dataset, 
+  Region=Regions_2012_Dataset)
+head(mydf)
+summary(mydf)
+
+#Merging data frames
+
+head(stats)
+head(mydf)
+merged <- merge(stats, mydf, by.x="Country.Code", by.y = "Code") #Code column removed to prevent duplicate
+head(merged)
+merged$Country <- NULL
+str(merged)
+
+#qplot Part II
+qplot(data=merged, x=Internet.users, y=Birth.rate,
+  color=Region, size=I(2))
+
+#1. Shapes
+qplot(data=merged, x=Internet.users, y=Birth.rate,
+  color=Region, size=I(2), shape=I(23))
+#2. Transparency
+qplot(data=merged, x=Internet.users, y=Birth.rate,
+  color=Region, size=I(2), shape=I(19), 
+  alpha=I(.6))
+#3. Title
+qplot(data=merged, x=Internet.users, y=Birth.rate,
+  color=Region, size=I(2), shape=I(19), 
+  alpha=I(.6), 
+  main="Birth Rate vs Internet Users")
+
+
+
+
+
+
+
+
+
+
 
 
 
