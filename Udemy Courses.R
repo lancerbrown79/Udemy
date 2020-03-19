@@ -611,19 +611,39 @@ qplot(data=merged, x=Internet.users, y=Birth.rate,
   alpha=I(.6), 
   main="Birth Rate vs Internet Users")
 
+#Section 5 Homework
+mydata5 <- read.csv("P2-Section5-Homework-Data.csv")
+mydata5
+str(mydata5)
+tail(mydata5)
+#Insight into years
+temp <- factor(mydata5$Year)
+temp
+#Split years
+mydata51960 <- mydata5[mydata5$Year == "1960", ]
+mydata52013 <- mydata5[mydata5$Year == "2013", ]
+#Check row counts
+nrow(mydata51960)
+nrow(mydata52013)
+#Combining 1960 Life Expectancy with mydata5
+data1960 <- cbind(mydata51960, LifeExpectancy=Life_Expectancy_At_Birth_1960)
+str(data1960)
+colnames(data1960) <- c("Name", "Code", "Region", "Year", "FertRate", "LifeExp")
+data1960$Year <- NULL
+#Combining 2013 Life Expectancy with mydata5
+data2013 <- cbind(mydata52013, LifeExp=Life_Expectancy_At_Birth_2013)
+str(data2013)
+colnames(data2013) <- c("Name", "Code", "Region", "Year", "FertRate", "LifeExp")
+data2013$Year <- NULL
+#Plot Life Expectancy vs. Fertility Rate (1960)
+qplot(data=data1960, x=FertRate, y=LifeExp, color=Region, main="Life Expectancy vs. Birth Rate 1960",
+  size=I(2), shape=I(19), alpha=I(.6))
+#Plot Life Expectancy vs. Fertility Rate (2013)
+qplot(data=data2013, x=FertRate, y=LifeExp, color=Region, main="Life Expectancy vs. Birth Rate 2013",
+  size=I(2), shape=I(19), alpha=I(.6))
 
-
-
-
-
-
-
-
-
-
-
-
-
+#Comments: Fertility rate in decreasing as life expectancy increases, maybe due to increased
+##proportion of aging population?
 
 
 
