@@ -522,6 +522,8 @@ levels(stats$Income.Group) #see what factors are in a character vector
 stats[1:10, ] #look at first 10 rows (and all columns)
 stats[3:9, ]
 stats[c(4,100),]
+stats[, c(1,4)] #look at columns 1 and 4 and all rows
+stats[,c("Country.Name","Internet.users")] #look at columns 1 and 4 and all rows
 
 #Remember how the [] work
 stats[1, ] #keeps it as a data frame (matrix would return vector (unless drop=F))
@@ -891,14 +893,47 @@ h +
     legend.justification = c(1,1),
     plot.title = element_text(color="dark blue",
       size=20, family="Courier"))   
-    
-    
-    
-    
-    
-    
-    
-    
+
+#============SECTION 6 HOMEWORK
+library(tidyverse)
+mov2 <- read.csv("Section6-Homework-Data.csv")
+#Logical for select studios
+mov3 <- (mov2$Studio=="Buena Vista Studios") | (mov2$Studio=="Fox") | (mov2$Studio=="Paramount Pictures") | (mov2$Studio== "Sony") | (mov2$Studio== "Universal") | (mov2$Studio== "WB")
+#Logical for select genres
+mov4 <- (mov2$Genre=="action") | (mov2$Genre=="adventure") | (mov2$Genre=="animation") |(mov2$Genre=="comedy") | (mov2$Genre=="drama")
+#Filter studios and genres
+filtdat <- mov2[mov3&mov4, ]
+#confirm filtering
+factor(filt$Studio)
+factor(filt$Genre)
+head(filtdat)
+summary(filtdat)
+str(filtdat)
+factor(filtdat$Gross...mill.)
+filtdat$Gross...mill. <- as.numeric(filtdat$Gross...mill.)
+#Rename column
+names(filtdat)[names(filtdat)=="Budget...mill."] <- "Budget $M"
+
+#Plot
+aa <- ggplot(data=filtdat, aes(x=Genre, y=Gross...US))
+aa + geom_point()
+bb <- aa + geom_jitter(aes(color=Studio, size=Budget...mill.)) + geom_boxplot(alpha=0.7, 
+  color="black", fill="white")
+bb <- bb + 
+  xlab("Genre") +
+  ylab("Gross % US") +
+  ggtitle("Domestic Gross % by Genre") +
+  theme(axis.title.x = element_text(color="Blue", size="20"),
+    axis.title.y = element_text(color="Blue", size="20"), 
+    axis.text.x = element_text(size=10),
+    axis.text.y = element_text(size=12),
+    plot.title = element_text(size=25),
+    legend.title = element_text(),
+    text = element_text(family="Comic Sans MS")
+    )
+
+bb$labels$size <- "Budget $M"
+bb    
     
     
     
