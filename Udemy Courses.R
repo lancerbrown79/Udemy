@@ -757,31 +757,97 @@ s + geom_density(aes(fill=Genre))
 s + geom_density(aes(fill=Genre), position="stack")
 
 #------------Starting layer tips
-
 t <- ggplot(data=movies, aes(x=AudienceRating))
 t + geom_histogram(binwidth=10,
   fill="White", color="Blue")
 
+#another way
+t <- ggplot(data=movies)
+t + geom_histogram(binwidth=10,
+  aes(x=AudienceRating),
+  fill="White", color="Blue")
+#>>>4
+t + geom_histogram(binwidth=10,
+  aes(x=CriticRating),
+  fill="White", color="Blue")
+#>>>5
+#Skeleton plot
+t <- ggplot()
+t + geom_histogram(data=movies, aes(x=AudienceRating))
 
+#Statistical transformations
+?geom_smooth
+u <- ggplot(data=movies, aes(x=CriticRating, y=AudienceRating, 
+  color=Genre))
+u + geom_point() + geom_smooth(fill=NA)
 
+#boxplots
+u <- ggplot(data=movies, aes(x=Genre, y=AudienceRating,
+  color=Genre))
+u + geom_boxplot()
+u + geom_boxplot() + geom_point()
+#tip/hack
+u + geom_boxplot() + geom_jitter(size=.2)
+#another way (puts boxes on top)
+u + geom_jitter(size=0.2) + geom_boxplot(alpha=0.5)
+#>>>6
 
+#--------------------Facets
+v <- ggplot(data=movies, aes(x=BudgetMillions))
+v + geom_histogram(binwidth=10, aes(fill=Genre), 
+  color="black")
 
+v + geom_histogram(binwidth=10, aes(fill=Genre), 
+  color="black") + 
+  facet_grid(Genre~., scales="free")
 
+#scatterplots
+w <- ggplot(data=movies, aes(x=CriticRating, y=AudienceRating, 
+  color=Genre))
+w + geom_point(size=1) 
 
+#facet grid
+w + geom_point(size=1) +
+  facet_grid(Genre~.)
 
+w + geom_point(size=1) +
+  facet_grid(.~Year)
 
+w + geom_point(size=1) +
+  facet_grid(Genre~Year)
 
+w + geom_point(aes(size=BudgetMillions)) +
+  geom_smooth() +
+  facet_grid(Genre~Year)
+#>>>>1
 
+#----------Coordinates (limits and zoom)
 
+m <- ggplot(data=movies, aes(x=CriticRating, y=AudienceRating, 
+  size=BudgetMillions, 
+  color=Genre))
 
+m + geom_point() +
+  xlim(50,100) +
+  ylim(50,100)
 
+#won't work well always
+n <- ggplot(data=movies, aes(x=BudgetMillions))
+n + geom_histogram(bindwidth=10, aes(fill=Genre), color="black")
 
+n + geom_histogram(bindwidth=10, aes(fill=Genre), color="black") +
+  ylim(0,50)
 
+#instead - zoom
+n + geom_histogram(bindwidth=10, aes(fill=Genre), color="black") +
+  coord_cartesian(ylim=c(0,50))
 
-
-
-
-
+#improve #1
+w + geom_point(aes(size=BudgetMillions)) +
+  geom_smooth(size=0.5) +
+  facet_grid(Genre~Year) +
+  coord_cartesian(ylim=c(0,100))
+  
 
 
 
