@@ -918,7 +918,7 @@ names(filtdat)[names(filtdat)=="Budget...mill."] <- "Budget $M"
 aa <- ggplot(data=filtdat, aes(x=Genre, y=Gross...US))
 aa + geom_point()
 bb <- aa + geom_jitter(aes(color=Studio, size=Budget...mill.)) + geom_boxplot(alpha=0.7, 
-  color="black", fill="white")
+  color="black", fill="white", outlier.color=NA)
 bb <- bb + 
   xlab("Genre") +
   ylab("Gross % US") +
