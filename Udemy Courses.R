@@ -910,7 +910,6 @@ head(filtdat)
 summary(filtdat)
 str(filtdat)
 factor(filtdat$Gross...mill.)
-filtdat$Gross...mill. <- as.numeric(filtdat$Gross...mill.)
 #Rename column
 names(filtdat)[names(filtdat)=="Budget...mill."] <- "Budget $M"
 
@@ -935,9 +934,16 @@ bb <- bb +
 bb$labels$size <- "Budget $M"
 bb    
     
-    
-    
-    
-    
-
+library(tidyverse)
+mov3td <- mov2 %>%
+  filter(mov2$Studio %in% c("Buena Vista Studios", "Fox", "Paramount Pictures", "Sony", "Universal", "WB"))
+mov4td <- mov3td %>%
+  filter(mov3td$Genre %in% c("action", "adventure", "animation", "comedy", "drama"))
+summary(mov4td)
+summary(mov3td)    
+summary(mov3)    
+factor(mov4td$Studio)
+factor(mov4td$Genre)
+factor(mov2$Genre)
+str(mov3td)
 
