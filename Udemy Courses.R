@@ -946,4 +946,5 @@ factor(mov4td$Studio)
 factor(mov4td$Genre)
 factor(mov2$Genre)
 str(mov3td)
+str(mov2)
 
