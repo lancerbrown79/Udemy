@@ -138,3 +138,45 @@ fin[is.na(fin$State) & fin$City=="San Francisco", "State" ] <- "CA"
 fin[c(82,265), ]
 fin[!complete.cases(fin), ]
 
+#Median imputation method (Part I)
+fin[fin$Industry=="Retail", ]
+fin[!complete.cases(fin), ]
+med_empl_retail <- median(fin[fin$Industry=="Retail", "Employees"], na.rm=TRUE) 
+
+fin[is.na(fin$Employees) & fin$Industry=="Retail", "Employees"] <- med_empl_retail #replace NA for retail employees with median of retail employees
+fin[3,]
+
+mean(fin[, "Employees"], na.rm=TRUE)
+mean(fin[fin$Industry=="Financial Services", "Employees"], na.rm=TRUE)
+median(fin[, "Employees"], na.rm=TRUE)
+median(fin[fin$Industry=="Financial Services", "Employees"], na.rm=TRUE)
+
+med_empl_financialservices <- median(fin[fin$Industry=="Financial Services", "Employees"], na.rm=TRUE)
+med_empl_financialservices
+
+fin[is.na(fin$Employees) & fin$Industry=="Financial Services", "Employees"] <- med_empl_financialservices
+fin[330, ]
+
+#Replacing Missing Data: Median Imputation Method (Part 2)
+fin[!complete.cases(fin), ]
+mean(fin[ ,"Growth"], na.rm=TRUE)
+mean(fin[fin$Industry=="Construction", "Growth"], na.rm=TRUE)
+median(fin[ ,"Growth"], na.rm=TRUE)
+median(fin[fin$Industry=="Construction", "Growth"], na.rm=TRUE)
+
+med_growth_const <- median(fin[fin$Industry=="Construction", "Growth"], na.rm=TRUE)
+
+fin[is.na(fin$Growth), ]
+fin[is.na(fin$Growth) & fin$Industry=="Construction", ]
+fin[is.na(fin$Growth) & fin$Industry=="Construction", "Growth"] <- med_growth_const
+#check
+fin[8, ]
+fin[!complete.cases(fin), ]
+
+
+
+
+
+
+
+
