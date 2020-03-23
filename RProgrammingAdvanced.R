@@ -173,10 +173,24 @@ fin[is.na(fin$Growth) & fin$Industry=="Construction", "Growth"] <- med_growth_co
 fin[8, ]
 fin[!complete.cases(fin), ]
 
-
-
-
-
-
-
-
+#Replacing Missing Data: Median Imputation Method (Part 3)
+fin_backup2 <- fin
+fin <- fin_backup2
+#Replacing Construction Revenue NAs
+mean(fin[ ,"Revenue"], na.rm=TRUE)
+mean(fin[fin$Industry=="Construction" ,"Revenue"], na.rm=TRUE)
+median(fin[ ,"Revenue"], na.rm=TRUE)
+median(fin[fin$Industry=="Construction" ,"Revenue"], na.rm=TRUE)
+med_constr_revenue <- median(fin[fin$Industry=="Construction" ,"Revenue"], na.rm=TRUE)
+fin[is.na(fin$Revenue) & fin$Industry=="Construction", "Revenue"] <- med_constr_revenue
+fin[c(8,42), ]
+#Replacing Construction Expenses NAs
+mean(fin[ ,"Expenses"], na.rm=TRUE)
+mean(fin[ ,"Expenses"], na.rm=TRUE)
+mean(fin[fin$Industry=="Construction", "Expenses"], na.rm=TRUE)
+median(fin[ ,"Expenses"], na.rm=TRUE)
+median(fin[fin$Industry=="Construction", "Expenses"], na.rm=TRUE)
+med_constr_expenses <- median(fin[fin$Industry=="Construction", "Expenses"], na.rm=TRUE)
+med_constr_expenses
+fin[is.na(fin$Expenses) & fin$Industry=="Construction","Expenses"] <- med_constr_expenses
+fin[!complete.cases(fin), ]
