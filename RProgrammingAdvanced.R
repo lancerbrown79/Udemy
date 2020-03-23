@@ -192,5 +192,48 @@ median(fin[ ,"Expenses"], na.rm=TRUE)
 median(fin[fin$Industry=="Construction", "Expenses"], na.rm=TRUE)
 med_constr_expenses <- median(fin[fin$Industry=="Construction", "Expenses"], na.rm=TRUE)
 med_constr_expenses
-fin[is.na(fin$Expenses) & fin$Industry=="Construction","Expenses"] <- med_constr_expenses
+fin[is.na(fin$Expenses) & fin$Industry=="Construction" & is.na(fin$Profit),"Expenses"] <- med_constr_expenses #add extra filter to insure rows have Profit as NA
 fin[!complete.cases(fin), ]
+
+#Replacing  missing data: deriving values
+#Revenue - Expenses = Profit
+#Expenses = Revenue - Profit
+
+fin[is.na(fin$Profit), "Profit"] <- fin[is.na(fin$Profit), "Revenue"] - fin[is.na(fin$Profit), "Expenses"]
+fin[!complete.cases(fin), ]
+
+fin[c(8,42), ]
+
+fin[is.na(fin$Expenses), "Expenses"] <- fin[is.na(fin$Expenses), "Revenue"] - fin[is.na(fin$Expenses), "Profit"]
+fin[15, ]
+fin[!complete.cases(fin), ]
+
+#Visualizing Results
+library(ggplot2)
+
+#Scatterplot classified by Industry showing revenue, expenses, profit
+p <- ggplot(data=fin)
+p + geom_point(aes(x=Revenue, y=Expenses, 
+        color=Industry, size=Profit))
+
+#Scatterplot that includes industry trends for the expenses revenue relationship
+d <- ggplot(data=fin, aes(x=Revenue, y=Expenses, 
+        color=Industry))
+d + geom_point() + 
+        geom_smooth(fill=NA, size=1.2)
+
+#BoxPlots showing growth by industry
+e <- ggplot(data=fin, aes(x=Industry, y=Growth,
+        color=Industry))
+e + geom_boxplot(size=1)
+
+#Extra
+e + geom_jitter() +
+        geom_boxplot(alpha=0.5, outlier.color=NA)
+
+
+
+
+
+
+
