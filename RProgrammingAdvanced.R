@@ -231,6 +231,180 @@ e + geom_boxplot(size=1)
 e + geom_jitter() +
         geom_boxplot(alpha=0.5, outlier.color=NA)
 
+fin
+
+# Lists
+
+#Deliverable - a list with the following components:
+#Character:     Machine name
+#Vector:        (min, mean, max) Utilization for the month (excluding unknown hours)
+#Logical:       Has utilization ever fallen below 90%? TRUE/FALSE
+#Vector:        All hours where utilization is unknown (NA's)
+#Dataframe:     For this machine
+#Plot:          For all machines
+
+getwd()
+
+util <- read.csv("P3-Machine-Utilization.csv")
+
+head(util, 12)
+str(util)
+summary(util)
+
+#Derive utilization column
+
+util$Utilization = 1 - util$Percent.Idle
+head(util,12)
+
+#Handling Date-Times in R
+
+tail(util) #Determine if european or american format. Tail shows you where 30 days is in the date. 
+
+?POSIXct #Stores time as number of seconds that have passed since 1970
+
+util$PosixTime <- as.POSIXct(util$Timestamp, format="%d/%m/%Y %H:%M") #Y is 4 digit year
+head(util, 12)
+summary(util) #Posix time recognized as time
+
+#TIP: How to rearrange columns in dataframe:
+
+util$Timestamp <- NULL
+head(util, 12)
+
+util <- util[, c(4, 1, 2, 3)] #rearrange columns by passing on vector of rearranged column numbers
+head(util, 12)
+
+#What is a list?
+
+#List is data object that can contain any types of elements
+
+summary(util)
+
+RL1 <- util[util$Machine=="RL1", ]
+RL1
+
+summary(RL1)
+
+#When subsetting dataframe, you need to refactor data frame to get rid of legacy factor
+
+RL1$Machine <- factor(RL1$Machine)
+
+#Construct list
+#Character:     Machine name
+#Vector:        (min, mean, max) Utilization for the month (excluding unknown hours)
+#Logical:       Has utilization ever fallen below 90%? TRUE/FALSE
+
+util_stats_rl1 <- c(min(RL1$Utilization, na.rm=T),
+        mean(RL1$Utilization, na.rm=T), 
+        max(RL1$Utilization, na.rm=T))
+
+util_stats_rl1
+length(which(RL1$Utilization < 0.90)) > 0 #tells length of vector indeces that have True values; has one occurance of True ever happened; ignores NAs
+as.logical(length(which(RL1$Utilization < 0.90)))
+util_under_90_flag <- length(which(RL1$Utilization < 0.90)) > 0 
+util_under_90_flag
+
+list_rl1 <- list("RL1", util_stats_rl1, util_under_90_flag)
+list_rl1
+
+#Naming components of a List
+names(list_rl1)
+names(list_rl1) <- c("Machine", "Stats", "LowThreshold")
+
+list_rl1
+
+#Another way. Like with dataframes: 
+
+rm(list_rl1)
+list_rl1 <- list(Machine="RL1", Stats=util_stats_rl1, LowThreshold=util_under_90_flag)
+list_rl1
+
+#Extracting components of a list
+#Three ways:
+#[] - will always return a list
+#[[]] - will always return a component
+#$ - same as [[]] but prettier
+
+list_rl1[1] #returns list of component 1
+list_rl1[[1]] #returns component vector
+list_rl1$Machine #returns component vector 
+list_rl1[2] #returns list of component 2
+typeof(list_rl1[2])
+typeof(list_rl1$Machine)
+typeof(list_rl1[[2]])
+
+list_rl1$Stats
+typeof(list_rl1$Stats)
+
+#how would you access the third element of the vector (max utilization)?
+list_rl1[[c(2,3)]]
+list_rl1[[2]][3]
+list_rl1$Stats[3]
+
+#Adding and deleting components in list
+list_rl1
+list_rl1[4] <- "New Information"
+list_rl1
+
+#Another way to add component via the $
+#We will add:
+#Vector: All hours where utilization is unknown (NAs)
+RL1
+RL1[is.na(RL1$Utilization), ] #Gives subset of data where NA's are present
+RL1[is.na(RL1$Utilization), "PosixTime"] 
+list_rl1$UnknownHours <- RL1[is.na(RL1$Utilization), "PosixTime"] 
+list_rl1
+
+#Remove component. Use NULL method
+
+list_rl1[100] <- "New Information"
+list_rl1
+list_rl1[c(5:100)] <- NULL #remove components 5 through 100
+list_rl1
+list_rl1[4] <- NULL
+list_rl1
+
+#!!Notice: numeration has shifted
+list_rl1[4] #when component 4 was removed, component 5 automatically became component 4
+
+#Add another component 
+#Dataframe: for this machine
+
+list_rl1$Data <- RL1
+list_rl1
+
+#Change maxprint option to 10000
+options("max.print"=10000)
+getOption("max.print")
+
+summary(list_rl1)
+str(list_rl1)
+
+#Challenge - how would you access first date in component UnknownHours?
+
+list_rl1[[4]][1]
+list_rl1$UnknownHours[1]
+
+#Subsetting a list []
+list_rl1
+list_rl1[1:3]
+list_rl1[c(1,4)]
+list_rl1[c("Machine", "Stats")]
+sublist_rl1 <- list_rl1[c("Machine", "Stats")]
+sublist_rl1
+sublist_rl1[[2]][2] #get average in component 2
+sublist_rl1$Stats[2]  #get average in component 2
+#Double Square brackets are NOT for subsetting
+
+
+
+
+
+
+
+
+
+
 
 
 
