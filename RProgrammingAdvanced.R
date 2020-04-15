@@ -422,6 +422,117 @@ list_rl1
 summary(list_rl1)
 str(list_rl1)
 
+#Apply family of functions
+getwd() 
+setwd("./Weather Data") #. is current directory
+
+#Read data; #we don't want rownames to be separate column; rownames=1 means take rownames from first column
+Chicago <- read.csv("Chicago-F.csv", row.names=1) 
+NewYork <- read.csv("NewYork-F.csv", row.names=1)
+Houston <- read.csv("Houston-F.csv", row.names=1) 
+SanFrancisco <- read.csv("SanFrancisco-F.csv", row.names=1)
+#Check
+Chicago
+NewYork
+Houston
+SanFrancisco
+
+#These are dataframes
+is.data.frame(Chicago)
+
+#Convert to matrices (all values are numeric)
+Chicago <- as.matrix(Chicago)
+NewYork <- as.matrix(NewYork)
+Houston <- as.matrix(Houston)
+SanFrancisco <- as.matrix(SanFrancisco)
+
+#Put all into a list
+Weather <- list(Chicago=Chicago, NewYork=NewYork, Houston=Houston, SanFrancisco=SanFrancisco)
+Weather
+
+Weather[3] #Returns component as subset list
+Weather[[3]] #Returns just component (not in list)
+Weather$Houston #Returns just component (not in list)
+
+#Apply
+M <- rbind(c(27,63,42,111,12),c(1, 54, 34, 98, 21), c(44, 14, 54, 101, 2))
+is.matrix(M)
+M
+
+#Apply functions apply something to a matrix
+#Apply mean function to matrix M. 1 denotes rows.
+apply(M, 1, mean) 
+apply(M, 1, max)
+
+#Apply function with 2 applies function to columns
+apply(M, 2, mean)
+
+#Apply family
+#apply - use on a matrix, either rows (1) or the columns (2)
+#tapply - use on a vector to extract subgrounds and apply a function to them
+#by - use on data frames. Same concept as in group by in SQL
+#eapply - use on an environment(E)
+#lapply - apply a function to elements of a list (L)
+#sapply - a version of lapply. Can simplify (S) the result so it's not presented as a list
+#vapply - has a pre-specified type of return value (V)
+#replicate - run a function several times. Usually used with generation of random variables.
+#mapply - multivariate(M) verson of sapply. Arguments can be recycled
+#rapply - recursive(R) version of lapply
+
+?apply
+Chicago
+#Get average for every row
+apply(Chicago, 1, mean)
+#check:
+mean(Chicago["DaysWithPrecip", ])
+#analyize one city:
+Chicago
+apply(Chicago, 1, max)
+apply(Chicago, 1, min)
+#for practice
+apply(Chicago, 2, max) #good exercise
+apply(Chicago, 2, min) #good exercise
+
+#Compare:
+apply(Chicago, 1, mean)
+apply(Houston, 1, mean)
+apply(NewYork, 1, mean)
+apply(SanFrancisco, 1, mean)
+                                #<<< (nearly) deliverable 1: but there is a faster way
+
+#Recreate apply function using loops (advanced topic)
+
+Chicago
+
+#Find mean of every row
+#Method 1: via loops
+output <- NULL #preparing empty vector
+for(i in 1:5) { #run cycle
+        output[i] <- mean(Chicago[i, ])
+}
+
+output #let's see what we have
+names(output) <- rownames(Chicago)
+output
+
+#Method 2: via apply
+apply(Chicago, 1, mean) #shorter than loops
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
