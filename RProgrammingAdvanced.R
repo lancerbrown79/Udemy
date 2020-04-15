@@ -395,16 +395,32 @@ sublist_rl1
 sublist_rl1[[2]][2] #get average in component 2
 sublist_rl1$Stats[2]  #get average in component 2
 #Double Square brackets are NOT for subsetting
+list_rl1[[1:3]] #doesn't work because you can only specify 1 component in double brackets
 
+#Build timeseries plot
+library(ggplot2)
 
+p <- ggplot(data=util)
+p + geom_line(aes(x=PosixTime, y=Utilization,
+        color=Machine), size=1.1) +
+        facet_grid(Machine~.) +
+        geom_hline(yintercept = 0.90,
+                color="Gray", size=1.2,
+                linetype=3)
+?linetype
 
+myplot <- p + geom_line(aes(x=PosixTime, y=Utilization,
+        color=Machine), size=1.1) +
+        facet_grid(Machine~.) +
+        geom_hline(yintercept = 0.90,
+                color="Gray", size=1.2,
+                linetype=3)
 
+list_rl1$Plot <- myplot
+list_rl1
 
-
-
-
-
-
+summary(list_rl1)
+str(list_rl1)
 
 
 
