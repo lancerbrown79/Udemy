@@ -518,19 +518,40 @@ output
 #Method 2: via apply
 apply(Chicago, 1, mean) #shorter than loops
 
+#Using lapply()
+?lapply
+Chicago
+t(Chicago) #transpose matrix
+Weather #list has 4 matrices
 
+#How can we transpose all 4 matrices and put them back into a list?
+lapply(Weather, t) #t(Chicago), t(NewYork), t(Houston), t(SanFrancisco)
 
+mynewlist <- lapply(Weather, t)
+mynewlist
 
+#example 2
+Chicago
+rbind(Chicago, NewRow=1:12)
+lapply(Weather, rbind, NewRow=1:12) #Add new row to each component in a list; returns list
 
+#example 3
+?rowMeans
+rowMeans(Chicago) #Identical to: apply(Chicago, 1, mean)
+lapply(Weather, rowMeans)
+                                #<<< (nearly) deliverable 1: better; but will improve
 
+#Handy functions
+#rowMeans
+#colMeans
+#rowSums
+#colSums
 
+test <- list(Chicago=colMeans(Chicago), NewYork=colMeans(NewYork), Houston=colMeans(Houston), SanFrancisco=colMeans(SanFrancisco))
+test
 
-
-
-
-
-
-
+#OR
+lapply(Weather, colMeans)
 
 
 
