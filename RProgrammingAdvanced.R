@@ -553,6 +553,58 @@ test
 #OR
 lapply(Weather, colMeans)
 
+#Combining lapply with [] operator
+Weather
+Weather[[1]][1,1]
+Weather$Chicago[1,1]
+
+#Extract AvgHigh_F for all 4 cities
+Weather$Chicago[1,1]
+Weather$NewYork[1,1]
+Weather$Houston[1,1]
+Weather$SanFrancisco[1,1]
+
+#OR
+
+Weather[[1]][1,1]
+Weather[[2]][1,1]
+Weather[[3]][1,1]
+Weather[[4]][1,1]
+
+#OR
+
+lapply(Weather, "[", 1, 1) #lapply implies [[]] for lapply(Weather, )
+
+Weather
+lapply(Weather, "[", 1, ) #AvgHigh_F for each month for each city
+
+#Metrics just for March for each city
+lapply(Weather, "[", , 3)
+
+lapply(Weather, "[", 2, 4)
+
+#Adding your own functions
+
+lapply(Weather, rowMeans)
+lapply(Weather, function(x) x[1,]) #Returns 1st row of each matrices; returned as list
+lapply(Weather, function(x) x[5 ,])  #Returns 5th row of each matrices; returned as list
+lapply(Weather, function(x) x[, 12])  #Returns 12th column of each matrices; returned as list
+Weather
+lapply(Weather, function(z) z[1,] - z[2,]) #Difference between AvgHigh_F and AvgLow_F
+lapply(Weather, function(z) (z[1,] - z[2,])/z[2,])
+lapply(Weather, function(z) round((z[1,] - z[2,])/z[2,], 2))
+                                #<<<Deliverable 2: temp fluctuations. Will improve!
+
+
+
+
+
+
+
+
+
+
+
 
 
 
