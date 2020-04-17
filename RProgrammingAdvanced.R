@@ -485,7 +485,7 @@ Chicago
 apply(Chicago, 1, mean)
 #check:
 mean(Chicago["DaysWithPrecip", ])
-#analyize one city:
+#analyze one city:
 Chicago
 apply(Chicago, 1, max)
 apply(Chicago, 1, min)
@@ -555,8 +555,8 @@ lapply(Weather, colMeans)
 
 #Combining lapply with [] operator
 Weather
-Weather[[1]][1,1]
-Weather$Chicago[1,1]
+Weather[[1]][1,1] #Returns AvgHigh_F for Chicago in January
+Weather$Chicago[1,1] #Returns AvgHigh_F for Chicago in January
 
 #Extract AvgHigh_F for all 4 cities
 Weather$Chicago[1,1]
@@ -595,15 +595,73 @@ lapply(Weather, function(z) (z[1,] - z[2,])/z[2,])
 lapply(Weather, function(z) round((z[1,] - z[2,])/z[2,], 2))
                                 #<<<Deliverable 2: temp fluctuations. Will improve!
 
+#Using sapply(); simpler version of lapply (output returned as vector or matrix instead of list)
+
+?sapply
+
+Weather
+
+#AvgHigh_F for July:
+lapply(Weather, "[", 1, 7) #returns list
+sapply(Weather, "[", 1, 7) #returns vector
+#AvgHigh_F for 4th quarter:
+lapply(Weather, "[", 1, 10:12) #returns list
+sapply(Weather, "[", 1, 10:12) #returns matrix
+#Another example:
+lapply(Weather, rowMeans) #returns list
+sapply(Weather, rowMeans) #returns matrix
+round(sapply(Weather, rowMeans), 2) #returns matrix rounded to second decimal  #<<Deliverable 1.
+#Another example:
+lapply(Weather, function(z) round((z[1,] - z[2,])/ z[2,], 2))
+sapply(Weather, function(z) round((z[1,] - z[2,])/ z[2,], 2)) #How much temperature fluctuates from minimum #<<Deliverable 2
+#By the way
+sapply(Weather, rowMeans, simplify=FALSE) #simplify=FALSE returns list; same as lapply
+
+del2 <- as.data.frame(sapply(Weather, function(z) round((z[1,] - z[2,])/ z[2,], 2)))
+del2
+d <- cbind(Month=rownames(del2), data.frame(del2, row.names=NULL)) #Convert rownames into 1st column
+
+#Nesting apply() functions
+Weather
+lapply(Weather, rowMeans)
+?rowMeans #no function for row maximums or minimums
+
+#Get maximums for each row
+Chicago
+d <- c(max(Chicago[1, ]), max(Chicago[2, ]), max(Chicago[3, ]), max(Chicago[4,]), max(Chicago[5,]))
+apply(Chicago, 1, max) #Just Chicago
+#apply across whole list (2 different ways):
+lapply(Weather, apply, 1, max) #preferred approach
+lapply(Weather, function(x) apply(x, 1, max))
+#Make tidy
+sapply(Weather, apply, 1, max) #<<<< Deliverable 3
+sapply(Weather, apply, 1, min) #<<<< Deliverable 4
+
+#Which.max() and which.min() (Advanced topic)
+
+#Get a matrix with the Months of mins and max
+
+?which.max #Where is the Min() or Max() or first TRUE or FALSE ?
+
+which.max(Chicago[1,]) #returns a named vector
+names(which.max(Chicago[1,]))
+
+#We will have apply to iterate over rows of matrix; and lapply or sapply to iterate over components of list
+
+apply(Chicago, 1, function(x) names(which.max(x)))
+#iterate over components of list
+lapply(Weather, function(y) apply(y, 1, function(x) names(which.max(x))))
+sapply(Weather, function(y) apply(y, 1, function(x) names(which.max(x))))
+sapply(Weather, function(y) apply(y, 1, function(x) names(which.min(x))))
 
 
+M1 <- rbind(c(100,200,300,400,500), rep(10,5))
+M2 <- rbind(1:5, rep(10,5))
+MyAwesomeList <- list(M1, M2)
+MyAwesomeList
 
-
-
-
-
-
-
+#Divide first row by the second row for every matrix in this list, return result as matrix?
+sapply(MyAwesomeList, function(z) z[1,] / z[2,])
 
 
 
